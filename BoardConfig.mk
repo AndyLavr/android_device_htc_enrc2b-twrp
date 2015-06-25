@@ -52,35 +52,75 @@ BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
 
 # Try to build the kernel
-#TARGET_KERNEL_SOURCE := kernel/htc/enrc2b
-#TARGET_KERNEL_CONFIG := omni_enrc2b_defconfig
+TARGET_KERNEL_SOURCE := kernel/htc/enrc2b
+TARGET_KERNEL_CONFIG := omni_enrc2b_defconfig
 
 # dont build docs
 DISABLE_DROIDDOC := true
 
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+# Charge mode
+BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/htc/enrc2b/recovery/twrp.fstab
-#RECOVERY_FSTAB_VERSION := 2
-#TARGET_RECOVERY_INITRC := device/htc/enrc2b/recovery/init.recovery.enrc2b.rc
+#TARGET_PREBUILT_RECOVERY_KERNEL := device/htc/enrc2b/recovery/kernel
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_HAS_SDCARD_INTERNAL := true
-
+TARGET_RECOVERY_FSTAB := device/htc/enrc2b/ramdisk/fstab.enrc2b
+#RECOVERY_FSTAB_VERSION := 2
 
 # TWRP
-DEVICE_RESOLUTION := 720x1280
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
+BOARD_CUSTOM_BOOTIMG_MK := device/htc/enrc2b/recovery/recovery.mk
+TW_THEME := portrait_hdpi
+TW_EXCLUDE_SUPERSU := true
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_HAS_SDCARD_INTERNAL := true
+TARGET_USERIMAGES_USE_F2FS := true
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
 TW_NO_USB_STORAGE := true
+TW_NO_REBOOT_BOOTLOADER := true
+TW_NO_REBOOT_RECOVERY := true
+TW_INCLUDE_CRYPTO := true
 TW_INTERNAL_STORAGE_PATH := "/data/media"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 
-TW_INCLUDE_CRYPTO := true
-TW_CRYPTO_FS_TYPE := "ext4"
-TW_CRYPTO_REAL_BLKDEV := "/dev/block/mmcblk0p8"
-TW_CRYPTO_MNT_POINT := "/data"
-TW_CRYPTO_FS_OPTIONS := "journal_async_commit,data=writeback,nodelalloc"
-TW_CRYPTO_FS_FLAGS := "0x00000406"
-TW_CRYPTO_KEY_LOC := "footer"
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+
+#Dexopt, the X+ has more than enough space for this
+ifneq ($(TARGET_TRANSPARENT_COMPRESSION_METHOD),)
+ifeq ($(HOST_OS),linux)
+  ifeq ($(TARGET_BUILD_VARIANT),user)
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+    endif
+ endif
+endif
+endif
+			
+# Device specific SELinux policies
+BOARD_SEPOLICY_DIRS += \
+		device/htc/enrc2b/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    file_contexts \
+    property_contexts \
+    service_contexts \
+    drmserver.te \
+	bluetooth.te \
+	drmserver.te \
+    gpsd.te \
+    hdmid.te \
+    init.te \
+	keystore.te \
+    lmkd.te \
+    mediaserver.te \
+    property.te \
+    radio.te \
+    recovery.te \
+    rild.te \
+    sensors_config.te \
+    surfaceflinger.te \
+    system_app.te \
+    system_server.te \
+    zygote.te
