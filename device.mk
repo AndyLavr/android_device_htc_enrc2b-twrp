@@ -27,15 +27,12 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/root/sbin/detect_key:recovery/root/sbin/detect_key \
     $(LOCAL_PATH)/recovery/root/sbin/htcbatt:recovery/root/sbin/htcbatt \
     $(LOCAL_PATH)/recovery/root/sbin/offmode_charging:recovery/root/sbin/offmode_charging \
-    $(LOCAL_PATH)/recovery/init.recovery.enrc2b.rc:recovery/root/init.recovery.enrc2b.rc
+    $(LOCAL_PATH)/recovery/init.twrp.rc:recovery/root/init.twrp.rc
 
     # Files needed for boot image
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/init.enrc2b.rc:root/init.enrc2b.rc \
     $(LOCAL_PATH)/ramdisk/init.usb.rc:root/init.usb.rc \
-    $(LOCAL_PATH)/ramdisk/init.trace.rc:root/init.trace.rc \
-    $(LOCAL_PATH)/ramdisk/init.scripts.sh:root/init.scripts.sh \
-    $(LOCAL_PATH)/ramdisk/ueventd.rc:root/ueventd.rc \
     $(LOCAL_PATH)/ramdisk/ueventd.enrc2b.rc:root/ueventd.enrc2b.rc \
     $(LOCAL_PATH)/ramdisk/fstab.enrc2b:root/fstab.enrc2b
 
@@ -80,18 +77,7 @@ PRODUCT_PACKAGES += \
     OmniTorch
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.com.google.locationfeatures=1 \
-    ro.setupwizard.enable_bypass=1 \
-    dalvik.vm.execution-mode=int:jit \
-    dalvik.vm.lockprof.threshold=500 \
-    dalvik.vm.dexopt-flags=m=y \
     persist.sys.usb.config=mtp,adb
-
-# Performance tuning (http://source.android.com/devices/tuning.html)
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hwui.disable_scissor_opt=true \
-    ro.hwui.texture_cache_size=32 \
-    ro.hwui.layer_cache_size=24
 
 # Tegra 3 spacific overrides
 PRODUCT_PROPERTY_OVERRIDES += \

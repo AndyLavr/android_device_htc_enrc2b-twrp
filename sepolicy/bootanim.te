@@ -1,0 +1,1 @@
+allow bootanim cpuctl_device:dir search;

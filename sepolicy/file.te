@@ -1,0 +1,5 @@
+type sensors_block_device, fs_type, sysfs_type;
+type sysfs_smartdimmer, fs_type, sysfs_type;
+
+allow sysfs_devices_tegradc sysfs:filesystem associate;
+allow sysfs_devices_system_cpu sysfs:filesystem associate;
