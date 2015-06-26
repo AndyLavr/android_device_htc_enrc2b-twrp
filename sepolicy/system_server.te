@@ -1,7 +1,0 @@
-# Allow fuse
-allow system_server fuse:dir search;
-
-# Allow htcbatt
-#allow system_server htcbatt_device:chr_file { ioctl read write getattr lock append open };
-
-allow system_server cache_file:file execute;

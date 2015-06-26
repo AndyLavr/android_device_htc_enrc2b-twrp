@@ -88,11 +88,3 @@ BOARD_EGL_CFG := device/htc/tegra3-common/configs/egl.cfg
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 BOARD_VOLD_MAX_PARTITIONS := 22
 BOARD_HAS_SDCARD_INTERNAL := true
-			
-# Device specific SELinux policies
-BOARD_SEPOLICY_DIRS += \
-		device/htc/enrc2b/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    recovery.te \
-    surfaceflinger.te
