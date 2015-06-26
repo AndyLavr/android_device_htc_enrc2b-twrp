@@ -19,7 +19,6 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab \
-    $(LOCAL_PATH)/recovery/kernel:kernel
 
 # Recovery
 PRODUCT_COPY_FILES += \
@@ -36,46 +35,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/ueventd.enrc2b.rc:root/ueventd.enrc2b.rc \
     $(LOCAL_PATH)/ramdisk/fstab.enrc2b:root/fstab.enrc2b
 
-# Prebuilt GPS/Camera/Wi-Fi configs
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/nvcamera_2nd.conf:system/etc/nvcamera_2nd.conf \
-    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
-    $(LOCAL_PATH)/configs/gps/gpsconfig.xml:system/etc/gps/gpsconfig.xml \
-    $(LOCAL_PATH)/configs/gps/gpsconfig_release.xml:system/etc/gps/gpsconfig_release.xml \
-    $(LOCAL_PATH)/configs/htcfs.conf:system/etc/htcfs.conf \
-    $(LOCAL_PATH)/configs/hostapd.conf:system/etc/wifi/hostapd.conf \
-    $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
-    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
-    $(LOCAL_PATH)/configs/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
-    $(LOCAL_PATH)/configs/calibration:system/etc/calibration \
-    $(LOCAL_PATH)/configs/sysctl.conf:system/etc/sysctl.conf
-
-# BT
-PRODUCT_COPY_FILES += \
-$(LOCAL_PATH)/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
-
-# Audio packages
-PRODUCT_PACKAGES += \
-    libinvensense_mpl
-
-# Filesystem management tools
-PRODUCT_PACKAGES += \
-    sdcard \
-    libmtp
-
-# Hostapd
-PRODUCT_PACKAGES += \
-    hostapd_cli \
-    calibrator
-
-# NFC
-PRODUCT_PACKAGES += \
-    libnfc_ndef
-
-# Other Apps
-PRODUCT_PACKAGES += \
-    OmniTorch
-
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp,adb
 
@@ -84,14 +43,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.tegra.nvmmlite=1 \
     tf.enable=y
 
-# We have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
-
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-
-PRODUCT_LOCALES += en_GB xhdpi
-
 $(call inherit-product, vendor/htc/enrc2b/enrc2b-vendor.mk)
-
-# common tegra3-HOX+ configs
-$(call inherit-product, device/htc/tegra3-common/tegra3.mk)

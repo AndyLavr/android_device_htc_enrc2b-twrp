@@ -1,2 +1,0 @@
-allow ueventd sysfs_writable:file write;
-allow ueventd sysfs_writable:file open;

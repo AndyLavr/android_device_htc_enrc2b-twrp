@@ -13,29 +13,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# inherit from tegra3-common
--include device/htc/tegra3-common/BoardConfigCommon.mk
+# Board
+TARGET_BOARD_PLATFORM := tegra
+TARGET_NO_BOOTLOADER := true
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_CPU_VARIANT := cortex-a9
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
+TARGET_ARCH_VARIANT_CPU := cortex-a9
+TARGET_CPU_SMP := true
+ARCH_ARM_HAVE_TLS_REGISTER := true
+ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
+ARCH_ARM_USE_NON_NEON_MEMCPY := true
 
-# Wifi related defines
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-WPA_SUPPLICANT_VERSION      := VER_0_8_X
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
-BOARD_HOSTAPD_DRIVER        := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_bcmdhd
-BOARD_WLAN_DEVICE           := bcmdhd
-#WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/bcm4329.ko"
-WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA     := "/system/etc/firmware/fw_bcm4334.bin"
-WIFI_DRIVER_FW_PATH_AP      := "/system/etc/firmware/fw_bcm4334_apsta.bin"
-WIFI_DRIVER_FW_PATH_P2P     := "/system/etc/firmware/fw_bcm4334_p2p.bin"
+MALLOC_IMPL := dlmalloc
+BOARD_USES_LEGACY_MMAP := true
 
-# BT
-BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUEDROID_VENDOR_CONF := device/htc/enrc2b/bluetooth/vnd_enrc2b.txt
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= device/htc/enrc2b/bluetooth
+# Board naming
+TARGET_NO_RADIOIMAGE := true
+TARGET_BOOTLOADER_BOARD_NAME :=
+TARGET_BOARD_PLATFORM := tegra
 
-# HTC ril compatability
-TARGET_PROVIDES_LIBRIL := device/htc/enrc2b/proprietary/lib/libhtc-ril.so
+# Optimization build flags
+TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
+
+# Some proprietary libs need reservedVectorImpl variants
+COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 # Kernel / Ramdisk
 TARGET_PROVIDES_INIT_TARGET_RC := true
@@ -52,75 +57,42 @@ BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
 
 # Try to build the kernel
-TARGET_KERNEL_SOURCE := kernel/htc/enrc2b
-TARGET_KERNEL_CONFIG := omni_enrc2b_defconfig
-
-# dont build docs
-DISABLE_DROIDDOC := true
+TARGET_KERNEL_SOURCE := /home/lloir/android/kernel/htc/enrc2b
+TARGET_KERNEL_CONFIG := cm_enrc2b_defconfig
 
 # Charge mode
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
 # Recovery
-#TARGET_PREBUILT_RECOVERY_KERNEL := device/htc/enrc2b/recovery/kernel
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_FSTAB := device/htc/enrc2b/ramdisk/fstab.enrc2b
-#RECOVERY_FSTAB_VERSION := 2
 
 # TWRP
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
-BOARD_CUSTOM_BOOTIMG_MK := device/htc/enrc2b/recovery/recovery.mk
+#BOARD_CUSTOM_BOOTIMG_MK := device/htc/enrc2b/recovery/recovery.mk
 TW_THEME := portrait_hdpi
 TW_EXCLUDE_SUPERSU := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_HAS_SDCARD_INTERNAL := true
 TARGET_USERIMAGES_USE_F2FS := true
+TARGET_USERIMAGES_USE_EXT4 := true
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
-TW_NO_USB_STORAGE := true
-TW_NO_REBOOT_BOOTLOADER := true
-TW_NO_REBOOT_RECOVERY := true
-TW_INCLUDE_CRYPTO := true
-TW_INTERNAL_STORAGE_PATH := "/data/media"
-TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+# EGL settings
+USE_OPENGL_RENDERER := true
+BOARD_EGL_CFG := device/htc/tegra3-common/configs/egl.cfg
 
-#Dexopt, the X+ has more than enough space for this
-ifneq ($(TARGET_TRANSPARENT_COMPRESSION_METHOD),)
-ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),user)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-    endif
- endif
-endif
-endif
+# USB
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+BOARD_VOLD_MAX_PARTITIONS := 22
+BOARD_HAS_SDCARD_INTERNAL := true
 			
 # Device specific SELinux policies
 BOARD_SEPOLICY_DIRS += \
 		device/htc/enrc2b/sepolicy
 
 BOARD_SEPOLICY_UNION += \
-    file_contexts \
-    property_contexts \
-    service_contexts \
-    drmserver.te \
-	bluetooth.te \
-	drmserver.te \
-    gpsd.te \
-    hdmid.te \
-    init.te \
-	keystore.te \
-    lmkd.te \
-    mediaserver.te \
-    property.te \
-    radio.te \
     recovery.te \
-    rild.te \
-    sensors_config.te \
-    surfaceflinger.te \
-    system_app.te \
-    system_server.te \
-    zygote.te
+    surfaceflinger.te
