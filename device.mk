@@ -19,19 +19,12 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab \
-    $(LOCAL_PATH)/recovery/kernel:kernel
-
-# Recovery
-PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/recovery/kernel:kernel \
     $(LOCAL_PATH)/recovery/root/sbin/choice_fn:recovery/root/sbin/choice_fn \
     $(LOCAL_PATH)/recovery/root/sbin/detect_key:recovery/root/sbin/detect_key \
     $(LOCAL_PATH)/recovery/root/sbin/htcbatt:recovery/root/sbin/htcbatt \
     $(LOCAL_PATH)/recovery/root/sbin/offmode_charging:recovery/root/sbin/offmode_charging \
-    $(LOCAL_PATH)/recovery/init.twrp.rc:recovery/root/init.twrp.rc
-
-    # Files needed for boot image
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.enrc2b.rc:root/init.enrc2b.rc \
+    $(LOCAL_PATH)/ramdisk/init.recovery.enrc2b.rc:root/init.recovery.enrc2b.rc \
     $(LOCAL_PATH)/ramdisk/init.usb.rc:root/init.usb.rc \
     $(LOCAL_PATH)/ramdisk/ueventd.enrc2b.rc:root/ueventd.enrc2b.rc \
     $(LOCAL_PATH)/ramdisk/fstab.enrc2b:root/fstab.enrc2b

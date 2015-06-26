@@ -1,0 +1,42 @@
+on early-init
+    mount debugfs debugfs /sys/kernel/debug
+    write /sys/class/firmware/timeout 5
+
+on boot
+service choice_fn /sbin/choice_fn
+    oneshot
+
+service power_test /sbin/power_test
+    disabled
+    oneshot
+
+service offmode_charging /sbin/offmode_charging
+    disabled
+    oneshot
+
+service detect_key /sbin/detect_key
+    disabled
+    oneshot
+
+service htcbatt /sbin/htcbatt
+    oneshot
+ 
+# set atmel touch permissions
+    chown system system /sys/android_touch/unlock
+
+
+# backlight
+    chown system system /sys/class/backlight/tegra-pwm-bl/brightness
+
+# leds
+    chown system system /sys/class/leds/green/brightness
+    chown system system /sys/class/leds/green/blink
+    chown system system /sys/class/leds/amber/brightness
+    chown system system /sys/class/leds/amber/blink
+    chown system system /sys/class/leds/button-backlight/slow_blink
+
+# liblights
+    chown system system /sys/class/leds/button-backlight/currents
+    chmod 0664 /sys/class/leds/button-backlight/currents
+    chown system system /sys/class/leds/button-backlight/button_brightness
+    chmod 0664 /sys/class/leds/button-backlight/button_brightness
