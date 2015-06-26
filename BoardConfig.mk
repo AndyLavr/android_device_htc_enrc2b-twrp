@@ -56,10 +56,6 @@ BOARD_KERNEL_CMDLINE :=
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
 
-# Try to build the kernel
-TARGET_KERNEL_SOURCE := /home/lloir/android/kernel/htc/enrc2b
-TARGET_KERNEL_CONFIG := cm_enrc2b_defconfig
-
 # Charge mode
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
